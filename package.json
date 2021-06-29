@@ -1,0 +1,19 @@
+{
+  "name": "tjdance",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "type": "module",
+  "dependencies": {
+    "@capnajax/default-config": "^3.0.2",
+    "cookie-parser": "~1.4.4",
+    "detect-rpi": "^1.4.0",
+    "ejs": "^3.1.6",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "lodash": "^4.17.21",
+    "morgan": "~1.9.1"
+  }
+}

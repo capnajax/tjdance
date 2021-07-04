@@ -1,3 +1,4 @@
+'use strict';
 
 import express from 'express';
 import movements from '../../src/movement.js';
@@ -15,13 +16,15 @@ router.put('/', function(req, res, next) {
   let actions = req.body;
   console.log('actions body', actions);
   let ledAction = null;
+  let armAction = null;
   let errors = [];
 
 
   for (let actionType in actions) {
 
-    switch (actionType) {
+    console.log(`for ${actionType}`);
 
+    switch (actionType) {
     case 'led':
 
       if (ledAction) {
@@ -49,6 +52,32 @@ router.put('/', function(req, res, next) {
       }
       break;
 
+    case 'arm': 
+
+      console.log('arm,,,')
+
+      if (armAction) {
+        errors.push(`More than one arm action.`);
+        break;
+      }
+
+      if (_.isObject(actions.arm)) {
+        console.log('object');
+        let where = actions.arm.where || 'up';
+        let percent = actions.arm.percent || undefined;
+        console.log({where, percent});
+        if (movements.VALID_POSITIONS.includes(where)) {
+          armAction = { where, percent };
+          console.log({armAction});
+        } else {
+          errors.push(`Arm invalid "where" value "${where}"`);
+        }
+        
+      } else {
+        errors.push(`Cannot process arm action ${actions.arm}`);
+      } 
+      break;
+
     default:
       errors.push(`Unknown action ${actionType}`);
       break;
@@ -56,7 +85,10 @@ router.put('/', function(req, res, next) {
 
   }
 
+  console.log({armAction, ledAction, errors});
+
   ledAction && movements.setLed(ledAction.r, ledAction.g, ledAction.b);
+  armAction && movements.setArm(armAction.where, armAction.percent);
 
   errors.length && console.log(errors);
 

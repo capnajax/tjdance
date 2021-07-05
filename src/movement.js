@@ -11,6 +11,7 @@ const BACK = 'back';
 const VALID_POSITIONS = [UP, DOWN, BACK];
 
 function setArm(position, percent) {
+  percent = Math.round(percent);
   console.log('setArm', position, percent);
   if (isPi()) {
     switch(position) {

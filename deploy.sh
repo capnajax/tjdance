@@ -34,11 +34,16 @@ done
 curl -s ${baseUrl}/exit --connect-timeout 1 >/dev/null || true 
 
 rsync -avz -e ssh --stats --progress . ${rsyncExclude} \
-    ${remoteHost}:${remoteDir} | tee $xferFile
+    ${remoteHost}:${remoteDir}
 
 ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ;\
   if [ ! -e node_modules ]; then npm install; fi"
 
+rsync -avz -e ssh --stats --progress . ${rsyncExclude} \
+    /Users/thomas/Dropbox/Development/IBM/My_Projects/i2c-ws2812-adapter \
+    ${remoteHost}:${remoteDir}/node_modules
+
 echo "Starting..."
 
-ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; sudo su -c 'source /root/.nvm/nvm.sh ; npm run start'"
+ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; sudo su -c 'source /root/.nvm/nvm.sh ; DEBUG=I2cWS281xDriver,I2cWS281xDriver:* npm run start'"
+# ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; sudo su -c 'source /root/.nvm/nvm.sh ; npm run start'"

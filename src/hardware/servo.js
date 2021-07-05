@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 import { Gpio } from 'pigpio';
 
 const SERVO_PIN = 7;
@@ -13,10 +14,14 @@ const servo = new Gpio(SERVO_PIN, { mode: Gpio.OUTPUT });
 /**
  * @method position
  * Move the arm to the specified positon
- * @param {Number} positon 
+ * @param {Number} position 
  */
-function toPostion(positon) {
-  servo.servoWrite(positon);
+function toPostion(position) {
+  let usePosition = Math.round(
+      Math.max(ARM_BACK, Math.min(ARM_DOWN, position))
+    );
+  console.log(`**** arm positon ${position} toPostion ${usePosition}`);
+  servo.servoWrite(usePosition);
 }
 
 /**
@@ -29,7 +34,10 @@ function toPostion(positon) {
  */
 function percentRange(percent, a, b) {  
   console.log('percentRange', JSON.stringify({percent,a,b}));
-  let usePercent = percent ? Math.min(100, Math.max(0, percent)) : 100;
+  let usePercent = (_.isNil(percent) || _.isNaN(percent))
+    ? 100
+    : Math.min(100, Math.max(0, percent));
+  console.log('percentRange usePercent', usePercent);
   let result = (b - a) * usePercent / 100 + a;
   console.log('percentRange', result);
   return result;
@@ -72,4 +80,4 @@ export default {
   ARM_UP,
   ARM_DOWN,
   ARM_BACK
-}
+};

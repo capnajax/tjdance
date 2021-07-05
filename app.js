@@ -6,6 +6,7 @@ import { renderFile } from 'ejs';
 
 import indexRouter from './routes/index.js';
 import actionsRouter from './routes/api/actions.js';
+import sequencesRouter from './routes/api/sequences.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join('.', 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/actions', actionsRouter);
+app.use('/api/sequences', sequencesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

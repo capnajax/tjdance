@@ -12,17 +12,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.put('/', function(req, res, next) {
-  console.log('actions put');
   let actions = req.body;
-  console.log('actions body', actions);
   let ledAction = null;
   let armAction = null;
   let errors = [];
 
 
   for (let actionType in actions) {
-
-    console.log(`for ${actionType}`);
 
     switch (actionType) {
     case 'led':
@@ -53,22 +49,16 @@ router.put('/', function(req, res, next) {
       break;
 
     case 'arm': 
-
-      console.log('arm,,,')
-
       if (armAction) {
         errors.push(`More than one arm action.`);
         break;
       }
 
       if (_.isObject(actions.arm)) {
-        console.log('object');
         let where = actions.arm.where || 'up';
         let percent = actions.arm.percent || undefined;
-        console.log({where, percent});
         if (movements.VALID_POSITIONS.includes(where)) {
           armAction = { where, percent };
-          console.log({armAction});
         } else {
           errors.push(`Arm invalid "where" value "${where}"`);
         }
@@ -85,12 +75,10 @@ router.put('/', function(req, res, next) {
 
   }
 
-  console.log({armAction, ledAction, errors});
-
   ledAction && movements.setLed(ledAction.r, ledAction.g, ledAction.b);
   armAction && movements.setArm(armAction.where, armAction.percent);
 
-  errors.length && console.log(errors);
+  errors.length && console.error(errors);
 
   res.sendStatus(204);
 

@@ -20,7 +20,6 @@ function toPostion(position) {
   let usePosition = Math.round(
       Math.max(ARM_BACK, Math.min(ARM_DOWN, position))
     );
-  console.log(`**** arm positon ${position} toPostion ${usePosition}`);
   servo.servoWrite(usePosition);
 }
 
@@ -33,13 +32,10 @@ function toPostion(position) {
  * @return {Number}
  */
 function percentRange(percent, a, b) {  
-  console.log('percentRange', JSON.stringify({percent,a,b}));
   let usePercent = (_.isNil(percent) || _.isNaN(percent))
     ? 100
     : Math.min(100, Math.max(0, percent));
-  console.log('percentRange usePercent', usePercent);
   let result = (b - a) * usePercent / 100 + a;
-  console.log('percentRange', result);
   return result;
 }
 

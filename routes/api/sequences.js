@@ -8,7 +8,6 @@ import july4th from '../../src/sequences/july4th.js';
 var router = express.Router();
 
 function handleMovement(movement) {
-  console.log({movement});
   if (movement.led) {
     movements.setLed(movement.led.r, movement.led.g, movement.led.b);
   }
@@ -18,8 +17,6 @@ function handleMovement(movement) {
 }
 
 function readSequence(sequence) {
-
-  console.log(readSequence);
   let startTime;
   let beatLength = 60.0*1000/sequence.time.bpm;
   let barLength = beatLength*sequence.time.timeSig;
@@ -33,11 +30,8 @@ function readSequence(sequence) {
   }
   startTime = Date.now();
 
-  console.log({events});
-
   events.forEach(e => {
     let eTime = e.offset + startTime - Date.now();
-    console.log(`Setting movement ${eTime} of ${e.movement}`);
     setTimeout(() => {
       try {
         handleMovement(e.movement);
@@ -51,8 +45,6 @@ function readSequence(sequence) {
 router.get('/:name', function(req, res, next) {
 
   let name = req.params.name;
-
-  console.log(`sequence of name ${name}`);
 
   switch(name) {
   case 'july4th':

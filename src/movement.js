@@ -12,7 +12,6 @@ const VALID_POSITIONS = [UP, DOWN, BACK];
 
 function setArm(position, percent) {
   percent = Math.round(percent);
-  console.log('setArm', position, percent);
   if (isPi()) {
     switch(position) {
     case UP:
@@ -28,15 +27,10 @@ function setArm(position, percent) {
       console.error(`setArm: ${position} not valid`);
       break;
     }
-  } else {
-    console.log(`setArm ${position}, ${percent}`);
   }
 }
 
 function setLed(r, g, b) {
-
-  console.log('setLed', r, g, b);
-
   if (isPi()) {
     led.setColor(r, g, b);
     

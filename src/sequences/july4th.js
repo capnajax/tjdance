@@ -9,8 +9,6 @@ const numRepetitions = 32;
 
 function july4th() {
 
-  console.log('sequence/july4th()');
-
   let result = {
     time: {
       bpm: 120, // beats per minute
@@ -45,7 +43,6 @@ function july4th() {
     result.sequence.push({ bar: 4*i+3, beat: 2,   led: blue });
     result.sequence.push({ bar: 4*i+3, beat: 2.8, led: white});
   }
-  console.log(result);
   return result;
 }
 

@@ -18,7 +18,10 @@ router.put('/', function(req, res, next) {
   let errors = [];
 
 
-  for (let actionType in actions) {
+  for (let actionType of Object.keys(actions)) {
+
+    console.log('actionType: %s, action: %s',
+      actionType, JSON.stringify(actions[actionType]));
 
     switch (actionType) {
     case 'led':

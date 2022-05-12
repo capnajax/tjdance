@@ -4,6 +4,7 @@ import express from 'express';
 import movements from '../../src/movement.js';
 import _ from 'lodash';
 import july4th from '../../src/sequences/july4th.js';
+import july4thSilent from '../../src/sequences/july4th-silent.js';
 
 var router = express.Router();
 
@@ -49,6 +50,9 @@ router.get('/:name', function(req, res, next) {
   switch(name) {
   case 'july4th':
     readSequence(july4th());
+    break;
+  case 'july4th-silent':
+    readSequence(july4thSilent());
     break;
   default:
     console.error(`Sequence \"${name}\" not known`);

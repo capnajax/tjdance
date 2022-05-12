@@ -32,8 +32,7 @@ function setArm(position, percent) {
 
 function setLed(r, g, b) {
   if (isPi()) {
-    led.setColor(r, g, b);
-    
+    led.setColor(r, g, b);    
   } else {
     // c is contrastColor
     // const c = (r>128?1:0 + g>128?1:0 + b>128?1:0) >=2 ? 255 : 0;

@@ -43,6 +43,7 @@ function july4th() {
     result.sequence.push({ bar: 4*i+3, beat: 2,   led: blue });
     result.sequence.push({ bar: 4*i+3, beat: 2.8, led: white});
   }
+  
   return result;
 }
 

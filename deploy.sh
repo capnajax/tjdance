@@ -3,8 +3,8 @@
 rsyncIgnore=(node_modules .git)
 
 # context
-remoteHost=pi@tjbot-ibm.moon
-remoteDir=/home/pi/tjdance
+remoteHost=thomas@tjbot-ibm.moon
+remoteDir=/home/thomas/tjdance
 baseUrl=http://tjbot-ibm.moon:3000
 
 # parameters
@@ -40,10 +40,19 @@ ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ;\
   if [ ! -e node_modules ]; then npm install; fi"
 
 rsync -avz -e ssh --stats --progress . ${rsyncExclude} \
-    /Users/thomas/Dropbox/Development/IBM/My_Projects/i2c-ws2812-adapter \
+    /Users/thomas/Dropbox/Development/Projects/Community/i2c-ws2812-adapter \
     ${remoteHost}:${remoteDir}/node_modules
 
 echo "Starting..."
 
-ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; sudo su -c 'source /root/.nvm/nvm.sh ; DEBUG=I2cWS281xDriver,I2cWS281xDriver:* npm run start'"
-# ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; sudo su -c 'source /root/.nvm/nvm.sh ; npm run start'"
+# ssh ${remoteHost} "source .nvm/nvm.sh ; cd ${remoteDir} ; \
+#   sudo su -c 'source /root/.nvm/nvm.sh ; \
+#   node --trace-warnings --unhandled-rejections=strict ./bin/www'"
+
+ssh ${remoteHost} "\
+  sudo systemctl stop tjdance ;\
+  sleep 2 ;\
+  sudo systemctl start tjdance ;\
+  sleep 2 ;\
+  sudo systemctl status tjdance ;\
+"
